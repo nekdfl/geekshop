@@ -17,10 +17,10 @@ def products_view(request):
     categories = []
     products = []
 
-    with open("fixtures/categories.json") as f:
+    with open("mainapp/fixtures/categories.json") as f:
         categories = json.load(f)
 
-    with open("fixtures/products.json") as f:
+    with open("mainapp/fixtures/products.json") as f:
         products = json.load(f)
 
     content = {
