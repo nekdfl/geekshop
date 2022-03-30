@@ -1,7 +1,7 @@
 import json
-from unicodedata import category
 from django.shortcuts import render
 
+from mainapp.models import ProductCategory, Product
 # Create your views here.
 
 
@@ -25,8 +25,8 @@ def products_view(request):
 
     content = {
         "title": "GeekShop - Каталог",
-        "categories": categories["category_list"],
-        "products": products["goods"]
+        "categories": ProductCategory.objects.all(),
+        "products": Product.objects.all()
 
     }
     return render(request, 'mainapp/products.html', content)
