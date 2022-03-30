@@ -21,8 +21,8 @@ class Product(models.Model):
     name = models.CharField(max_length=128)
     image = models.ImageField(upload_to='product_images', blank=True)
     desciption = models.TextField(blank=True, null=True)
-    price = models.models.DecimalField(max_digits=8, decimal_places=2)
-    quantily = models.models.PositiveIntegerField(default=0)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    quantily = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
     def __str__(self):
