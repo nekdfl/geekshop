@@ -4,14 +4,14 @@
 
 dump()
 {
-    python manage.py dumpdata auth > ./mainapp/fixtures/dump_auth.json
+#    python manage.py dumpdata auth > ./mainapp/fixtures/dump_auth.json
     python manage.py dumpdata mainapp.ProductCategory > ./mainapp/fixtures/dump_category.json
     python manage.py dumpdata mainapp.Product > ./mainapp/fixtures/dump_product.json
 }
 
 load()
 {
-    python manage.py loaddata ./mainapp/fixtures/dump_auth.json
+#    python manage.py loaddata ./mainapp/fixtures/dump_auth.json
     python manage.py loaddata ./mainapp/fixtures/dump_category.json
     python manage.py loaddata ./mainapp/fixtures/dump_product.json
 }

@@ -1,13 +1,10 @@
-
-from textwrap import indent
 from django.core.management.base import BaseCommand
-from django.core.management import call_command
+from mainapp.management.utils import dumpdb
 
 
 class Command(BaseCommand):
+    """Make dump full db exclude 'auth' model"""
 
     def handle(self, *app_labels, **options):
-        call_command("dumpdata",
-                     indent=2,
-                     output="fulldb.json",
-                     exclude=["auth"])
+        print("Make dump exlude auth user model")
+        dumpdb(self,  **options)
