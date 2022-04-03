@@ -83,11 +83,7 @@
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="card h-100">
             <a href="#">
-              <img
-                class="card-img-top"
-                src="{% static product.image %} "
-                alt=""
-              />
+              <img class="card-img-top" src="{{ product.image.url }}" alt="" />
             </a>
             <div class="card-body">
               <h4 class="card-title">
@@ -132,7 +128,7 @@
 <footer class="py-5 bg-dark">
   <div class="container">
     <p class="m-0 text-center text-white">
-      Copyright &copy; GeekShop {% now "Y " %}
+      Copyright &copy; GeekShop {% now "Y" %}
     </p>
   </div>
   <!-- /.container -->
