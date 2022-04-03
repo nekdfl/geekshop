@@ -15,8 +15,8 @@ def get_auth_user_model():
 
 
 def is_authapp_user_exist(login):
-    # if AuthUser.objects.get(username=login):
-    #     return True
+    if AuthUser.objects.get(username=login):
+        return True
     return False
 
 
@@ -53,11 +53,11 @@ def add_auth_user_excl_list(exclude_list):
 
 def dumpdb(**options):
     """make dump of db to fixture"""
-
-    call_command("dumpdata", *app_labels,
-                 indent=2,
-                 output=FULL_DB_JSON_PATH,
-                 ** options)
+    pass
+    # call_command("dumpdata",
+    #              indent=2,
+    #              output=FULL_DB_JSON_PATH,
+    #              **options)
 
 
 def loaddb():
