@@ -34,7 +34,7 @@ def load_product_fixture():
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        # User.objects.create_superuser(username='gns', email='admin@mail.ru', password='1')
+        User.objects.create_superuser(username='gns', email='admin@mail.ru', password='1')
         load_category_fixture()
         load_product_fixture()
 
