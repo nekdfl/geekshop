@@ -1,8 +1,11 @@
 from django.urls import path
 
+from authapp.views import login, register, logout
 
-app_name = "mainapp"
+app_name = "authapp"
 
 urlpatterns = [
-    # path('', products_view, name='product')
+    path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
+    path('register/', register, name='register'),
 ]
