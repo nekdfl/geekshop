@@ -1,13 +1,14 @@
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from authapp.models import User
+from authapp.validators import validate_username
 
 
 class UserLoginForm(AuthenticationForm):
-
     class Meta:
         model = User
-        fields = ('username','password')
+        fields = ('username', 'password')
 
     def __init__(self,*args,**kwargs):
         super(UserLoginForm, self).__init__(*args,**kwargs)
@@ -18,10 +19,8 @@ class UserLoginForm(AuthenticationForm):
             field.widget.attrs['class'] = 'form-control py-4'
 
 
-    def clean_username(self):
-        pass
-
 class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(validators=[validate_username])
 
     class Meta:
         model = User
