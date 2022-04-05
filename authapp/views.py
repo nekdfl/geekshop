@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse
+
 from authapp.forms import UserLoginForm, UserRegisterForm
 
 
@@ -19,7 +20,7 @@ def login(request):
                 auth.login(request,user)
                 return HttpResponseRedirect(reverse('index'))
             else:
-                print(f'Пользователь {user} не активный')
+                print('Юзер не активный')
         else:
             print(form.errors)
 
