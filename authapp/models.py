@@ -6,5 +6,6 @@ from authapp.validators import validate_username
 
 
 class User(AbstractUser):
-    image = models.ImageField(upload_to="user_avatar", blank=True, validators=[validate_username])
+    # image = models.ImageField(upload_to="user_avatar", blank=True, validators=[validate_username])
+    image = models.ImageField(upload_to="user_avatar", blank=True)
     age = models.PositiveIntegerField(default=18)
