@@ -16,18 +16,19 @@ window.onload = function () {
     })
 
 
-    $('#add_to_cart').on('click', function () {
-        let t_href = event.target.value;
-        console.log(t_href);
+    $('.btn-outline-success').on('click',
+        function (event) {
+            let produt_id = event.target.value
+            console.log(produt_id);
+            $
 
-        // $.ajax(
-        //     {
-        //         url:"/basketapp/edit/" + t_href.name + "/" + t_href.value,
-        //         success: function (data){
-        //             // console.log(data)
-        //             $('.basket_list').html(data.result);
-        //         }
-        //     }
-        // )
-    })
+            $.ajax(
+                {
+                    url: "/basketapp/add/" + produt_id,
+                    success: function (data) {
+                        $('.card_add_basket').html(data.result)
+                    }
+                }
+            )
+        })
 }
