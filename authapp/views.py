@@ -1,6 +1,5 @@
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import message
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 # Create your views here.
@@ -44,7 +43,7 @@ def register(request):
                 return HttpResponseRedirect(reverse('authapp:login'))
         else:
             print(form.errors)
-            # messages.error(request,form.errors)
+            messages.error(request, form.errors)
     else:
         form = UserRegisterForm()
 
@@ -61,7 +60,6 @@ def profile(request):
         if form.is_valid():
             messages.success(request, 'Изменения сохранены')
             form.save()
-
         else:
             print(form.errors)
 
@@ -71,7 +69,6 @@ def profile(request):
         'title' : 'Gekshop | Профиль пользователя',
         'form' : UserProfileForm(instance=request.user),
         'baskets' : Basket.objects.filter(user=user_select)
-
     }
 
     return render(request, 'authapp/profile.html', context)
