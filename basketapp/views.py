@@ -7,6 +7,7 @@ from basketapp.models import Basket
 from mainapp.models import Product
 
 
+@login_required()
 def basket_add(request, id):
     user_select = request.user
     product = Product.objects.get(id=id)

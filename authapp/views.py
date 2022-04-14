@@ -62,6 +62,7 @@ def profile(request):
             form.save()
         else:
             print(form.errors)
+            messages.error(request, form.errors)
 
     user_select = request.user
 
