@@ -24,7 +24,7 @@ from mainapp.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('products/', include('mainapp.urls', namespace='mainapp_ns')),
+    path('products/', include('mainapp.urls', namespace='mainapp')),
     path('authapp/', include('authapp.urls', namespace='authapp')),
     path('basketapp/', include('basketapp.urls', namespace='basketapp')),
     path('adminapp/', include('adminapp.urls', namespace='adminapp')),

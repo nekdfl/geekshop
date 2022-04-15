@@ -1,0 +1,24 @@
+<div class="col-lg-7">
+    {% for message in messages %}
+        <div class="alert {% if message.tags == "success" %} alert-success {% else %}
+        alert-warning {% endif %} alert-dismissible fade show" role="alert"
+             style="margin-top: 50px;">
+            {% if form.errors %}
+                <b>Неверно заполнены поля:</b> <br>
+                <!-- For each field in form -->
+                {% for field in form %}
+                    <!-- For each error in field -->
+                    {% for error  in field.errors %}
+                        <!-- Output error text message only -->
+                        <div><b>{{ field.html_name }}</b> : <i>{{ error }} </i></div>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                {{ message }}
+            {% endif %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+</div>
