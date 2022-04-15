@@ -53,13 +53,13 @@
                         </div>
                         Пользователи
                     </a>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{% url 'adminapp:admin_categories' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
                         Категории
                     </a>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{% url 'adminapp:admin_products' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-tshirt"></i>
                         </div>
@@ -72,13 +72,14 @@
     </div>
     <div id="layoutSidenav_content">
         <main>
+            {% include 'common_inc/message-display.html' %}
             {% block context %}
             {% endblock %}
         </main>
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; GeekShop 2021</div>
+                    <div class="text-muted">Copyright &copy; GeekShop {% now "Y" %}</div>
                 </div>
             </div>
         </footer>
