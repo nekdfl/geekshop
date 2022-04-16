@@ -167,7 +167,7 @@ def admin_product_update(request, id):
         form = AdminProductUpdate(data=request.POST, instance=product_select, files=request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('adminapp:admin_users'))
+            return HttpResponseRedirect(reverse('adminapp:admin_products'))
     else:
         form = AdminProductUpdate(instance=product_select)
 

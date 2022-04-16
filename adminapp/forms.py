@@ -92,7 +92,7 @@ class AdminProductAdd(forms.ModelForm):
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 
 
-class AdminProductUpdate(AdminProductAdd):
+class AdminProductUpdate(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
@@ -100,7 +100,7 @@ class AdminProductUpdate(AdminProductAdd):
     def __init__(self, *args, **kwargs):
         super(AdminProductUpdate, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Введите наименование товара'
-        self.fields['image'].widget.attrs['placeholder'] = 'Загрузить фото'
+        # self.fields['image'].widget.attrs['placeholder'] = 'Загрузить фото'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание'
         self.fields['price'].widget.attrs['placeholder'] = 'Укажите цену'
         self.fields['quantity'].widget.attrs['placeholder'] = 'Укажите колличество на складе'
@@ -109,4 +109,4 @@ class AdminProductUpdate(AdminProductAdd):
         for filed_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-2'
 
-        self.fields['image'].widget.attrs['class'] = 'custom-file-input'
+        # self.fields['image'].widget.attrs['class'] = 'custom-file-input'
