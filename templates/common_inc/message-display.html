@@ -1,5 +1,6 @@
-<div class="col-lg-7">
-    {% for message in messages %}
+<div class="d-flex justify-content-center">
+    <div class="col-lg-8">
+        {% for message in messages %}
         <div class="alert {% if message.tags == "success" %} alert-success {% else %}
         alert-warning {% endif %} alert-dismissible fade show" role="alert"
              style="margin-top: 50px;">
@@ -21,4 +22,5 @@
             </button>
         </div>
     {% endfor %}
+    </div>
 </div>
