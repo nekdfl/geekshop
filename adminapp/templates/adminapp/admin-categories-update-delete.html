@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </form>
-            <form action="{% url 'adminapp:admin_category_delete' productcategory.id %}">
+            <form action="{% url 'adminapp:admin_category_delete' productcategory.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="col-lg-2" style="margin-top: 33px;">

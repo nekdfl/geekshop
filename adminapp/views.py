@@ -174,7 +174,7 @@ class CategoryDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
     form_class = AdminCategoryUpdateForm
     success_url = reverse_lazy('adminapp:admin_categories')
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
         return HttpResponseRedirect(self.get_success_url())
@@ -234,3 +234,4 @@ class ProductDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
         self.object.delete()
         messages.success(self.request, f'Товар {obj_name} успешно удален')
         return HttpResponseRedirect(self.success_url)
+
