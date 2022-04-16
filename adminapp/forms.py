@@ -43,13 +43,13 @@ class AdminUserProfileForm(UserChangeForm):
 
 
 ############################
-class AdminCategoryAdd(forms.ModelForm):
+class AdminCategoryAddForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
         fields = ('name', 'description')
 
     def __init__(self, *args, **kwargs):
-        super(AdminCategoryAdd, self).__init__(*args, **kwargs)
+        super(AdminCategoryAddForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Введите имя категории'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание...'
 
@@ -57,13 +57,13 @@ class AdminCategoryAdd(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control py-4'
 
 
-class AdminCategoryUpdate(forms.ModelForm):
+class AdminCategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
         fields = ('name', 'description')
 
     def __init__(self, *args, **kwargs):
-        super(AdminCategoryUpdate, self).__init__(*args, **kwargs)
+        super(AdminCategoryUpdateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Введите имя категории'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание...'
 
@@ -72,13 +72,13 @@ class AdminCategoryUpdate(forms.ModelForm):
 
 
 ############################
-class AdminProductAdd(forms.ModelForm):
+class AdminProductAddForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
 
     def __init__(self, *args, **kwargs):
-        super(AdminProductAdd, self).__init__(*args, **kwargs)
+        super(AdminProductAddForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Введите наименование товара'
         self.fields['image'].widget.attrs['placeholder'] = 'Загрузить фото'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание'
@@ -92,13 +92,13 @@ class AdminProductAdd(forms.ModelForm):
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 
 
-class AdminProductUpdate(forms.ModelForm):
+class AdminProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('name', 'image', 'description', 'price', 'quantity', 'category')
 
     def __init__(self, *args, **kwargs):
-        super(AdminProductUpdate, self).__init__(*args, **kwargs)
+        super(AdminProductUpdateForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['placeholder'] = 'Введите наименование товара'
         # self.fields['image'].widget.attrs['placeholder'] = 'Загрузить фото'
         self.fields['description'].widget.attrs['placeholder'] = 'Введите описание'
