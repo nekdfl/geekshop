@@ -1,0 +1,48 @@
+{% extends 'adminapp/base.html' %}
+{% block context %}
+    <div class="container-fluid">
+        {% if form.non_field_errors or messages %}
+            <div class="alert {% if messages %} alert-success {% else %} alert-warning {% endif %} alert-dismissible fade show"
+                 role="alert"
+                 style="margin-top: 50px;">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% else %}
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <h1 class="mt-4">Добавить категорию</h1>
+        <form action="{% url 'adminapp:admin_category_add' %}" method="POST"
+        ">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-lg-7">
+                <div class="form-group">
+                    <label class="small mb-1" for="{{ form.name.id_for_label }}">Название</label>
+                    {{ form.name }}
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="form-group">
+                    <label class="small mb-1" for="{{ form.description.id_for_label }}">Описание</label>
+                    {{ form.description }}
+                </div>
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="col-lg-2" style="margin-top: 33px;">
+                <input class="btn btn-info btn-block" type="submit" value="Сохранить">
+            </div>
+        </div>
+        </form>
+    </div>
+{% endblock %}

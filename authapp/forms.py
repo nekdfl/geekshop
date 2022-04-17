@@ -56,6 +56,6 @@ class UserProfileForm(UserChangeForm):
 
 
         for filed_name , field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-4'
+            field.widget.attrs['class'] = 'form-control py-2'
 
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'

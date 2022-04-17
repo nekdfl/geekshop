@@ -1,34 +1,7 @@
 {% extends 'authapp/base.html' %}
 
 {% block content %}
-    <div class="col-lg-7">
-        {% if form.errors %}
-            {% for message in messages %}
-                <div class="alert {% if message.tags == "success" %} alert-success {% else %}
-            alert-warning {% endif %} alert-dismissible fade show" role="alert"
-                     style="margin-top: 50px;">
-                    {% if form.errors %}
-                        <b>Неверно заполнены поля:</b> <br>
-                        <!-- For each field in form -->
-                        {% for field in form %}
-                            <!-- For each error in field -->
-                            {% for error  in field.errors %}
-                                <!-- Output error text message only -->
-                                <div><b>{{ field.html_name }}</b> : <i>{{ error }} </i></div>
-                            {% endfor %}
-                        {% endfor %}
-                    {% else %}
-                        {{ message }}
-                    {% endif %}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
 
-
-            </div>
-        {% endif %}
     <div class="card shadow-lg border-0 rounded-lg mt-5">
         <div class="card-header"><h3 class="text-center font-weight-light my-4">Создать аккаунт</h3>
         </div>
