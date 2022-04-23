@@ -18,7 +18,11 @@
             <div class="col-lg-9">
                 <div class="row my-5">
                     <div class="card" style="width: 20rem;">
-                        <img src="/media/{{ product.image }}" class="card-img-top" alt="...">
+                        {% if product.image %}
+                            <img src="/media/{{ product.image }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="{% static 'vendor/img/products/no-image.png' %}" class="card-img-top" alt="...">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
