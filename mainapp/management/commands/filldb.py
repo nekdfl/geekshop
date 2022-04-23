@@ -1,4 +1,5 @@
 import json
+
 from django.core.management.base import BaseCommand
 
 from authapp.models import User
@@ -34,7 +35,7 @@ def load_product_fixture():
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        User.objects.create_superuser(username='gns', email='admin@mail.ru', password='1')
+        User.objects.create_superuser(username='admin', email='admin@admin.ru', password='admin')
         load_category_fixture()
         load_product_fixture()
 
