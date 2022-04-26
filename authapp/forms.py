@@ -1,3 +1,6 @@
+import hashlib
+import random
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 
@@ -37,9 +40,16 @@ class UserRegisterForm(UserCreationForm):
         self.fields['first_name'].widget.attrs['placeholder'] = 'Введите имя'
         self.fields['email'].widget.attrs['placeholder'] = 'Введите email'
 
-
-        for filed_name , field in self.fields.items():
+        for filed_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
+
+    def save(self):
+        user = super(UserRegisterForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha1(str(random.Random).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1(str(user.email + salt).encode('utf8')).hexdigest()
+        user.save()
+        return user
 
 class UserProfileForm(UserChangeForm):
     image = forms.ImageField(widget=forms.FileInput, required=False)
