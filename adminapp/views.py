@@ -8,8 +8,8 @@ from django.views.generic import ListView, UpdateView, DeleteView, TemplateView,
 
 from adminapp.forms import UserAdminRegisterForm, AdminUserProfileForm, AdminCategoryAddForm, AdminCategoryUpdateForm, \
     AdminProductAddForm, AdminProductUpdateForm
-from adminapp.mixins import BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin
 from authapp.models import User
+from common.mixins import BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin
 from mainapp.models import ProductCategory, Product
 
 
@@ -72,7 +72,7 @@ class UserListView(ListView, BaseClassContextMixin, SuperUserDispatchMixin):
 #     }
 #     return render(request, 'adminapp/admin-users-create.html', context)
 
-class UserCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class UserCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = User
     title = 'Админка | Регистрация пользователи'
     template_name = 'adminapp/admin-users-create.html'
@@ -88,7 +88,7 @@ class UserCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, 
         return super().form_invalid(form)
 
 
-class UserUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class UserUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = User
     title = 'Админка | Редактирование пользователи'
     template_name = 'adminapp/admin-users-update-delete.html'
@@ -105,7 +105,7 @@ class UserUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, 
 
 
 # Пример удаления через DeleteView
-class UserDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
+class UserDeleteView(DeleteView, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = User
     template_name = 'adminapp/admin-users-update-delete.html'
     form_class = AdminUserProfileForm
@@ -113,8 +113,10 @@ class UserDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False
-        self.object.save()
+        # self.object.is_active = False
+        # self.object.save()
+        self.object.delete()
+
         return HttpResponseRedirect(self.get_success_url())
 
 # Пример удаления через FBV
@@ -129,14 +131,14 @@ class UserDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
 
 #########################
 
-class CategoryListView(ListView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class CategoryListView(ListView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = ProductCategory
     title = 'Админка | Категории товаров',
     template_name = 'adminapp/admin-categories-read.html'
     context_object_name = 'categories'
 
 
-class CategoryCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class CategoryCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = ProductCategory
     title = 'Админка | Добавить категорию товаров'
     template_name = 'adminapp/admin-categories-create.html'
@@ -152,7 +154,7 @@ class CategoryCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMix
         return super().form_invalid(form)
 
 
-class CategoryUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class CategoryUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = ProductCategory
     title = 'Админка | Редактировать категорию товаров'
     template_name = 'adminapp/admin-categories-update-delete.html'
@@ -168,7 +170,7 @@ class CategoryUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMix
         return super().form_invalid(form)
 
 
-class CategoryDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
+class CategoryDeleteView(DeleteView, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = ProductCategory
     template_name = 'adminapp/admin-categories-update-delete.html'
     form_class = AdminCategoryUpdateForm
@@ -182,14 +184,14 @@ class CategoryDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
 
 #########################
 
-class ProductListView(ListView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class ProductListView(ListView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = Product
     template_name = 'adminapp/admin-products-read.html'
     title = 'Админка | Категории товаров',
     context_object_name = 'products'
 
 
-class ProductCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class ProductCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = Product
     template_name = 'adminapp/admin-products-create.html'
     title = 'Админка | Добавление товара'
@@ -205,7 +207,7 @@ class ProductCreateView(CreateView, BaseClassContextMixin, SuperUserDispatchMixi
         return super().form_invalid(form)
 
 
-class ProductUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, UserDispatchMixin):
+class ProductUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = Product
     template_name = 'adminapp/admin-products-update-delete.html'
     title = 'Админка | Обновление информации о товаре'
@@ -221,7 +223,7 @@ class ProductUpdateView(UpdateView, BaseClassContextMixin, SuperUserDispatchMixi
         return super(ProductUpdateView, self).form_invalid(form)
 
 
-class ProductDeleteView(DeleteView, SuperUserDispatchMixin, UserDispatchMixin):
+class ProductDeleteView(DeleteView, SuperUserDispatchMixin, IsUserAuthorizedMixin):
     model = Product
     template_name = 'adminapp/admin-products-update-delete.html'
     form_class = AdminProductUpdateForm
