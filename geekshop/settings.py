@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,14 +21,31 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+def create_env_file(envfilepath):
+    with open(envfilepath, 'w+', encoding='utf-8') as envfile:
+        print(".env does not exists! Creating it with SECRET_KEY... \n please wait")
+        from django.core.management import utils
+        new_secret_key = utils.get_random_secret_key()
+        secret_key = f"SECRET_KEY={new_secret_key}\n"
+        envfile.seek(0, os.SEEK_END)
+        envfile.write(secret_key)
+        print(".env was created. Check it.")
+
+
+ENV_FILE = os.path.join(BASE_DIR, '.env')
+if os.path.exists(ENV_FILE) and os.path.isfile(ENV_FILE):
+    load_dotenv(ENV_FILE)
+else:
+    create_env_file(ENV_FILE)
+    load_dotenv(ENV_FILE)
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '123'
+SECRET_KEY = os.environ.get("SECRET_KEY", '123'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -42,7 +61,8 @@ INSTALLED_APPS = [
     "mainapp",
     "authapp",
     "basketapp",
-    "adminapp"
+    "adminapp",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -173,3 +193,17 @@ EMAIL_TIMEOUT = 20
 # add this for log email in files
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = 'tmp/email-messages/'
+
+# 8150978
+# ZjQGbMraDLeYnXZG3gvz
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
+)
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("VK_OAUTH2_KEY")
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("VK_OAUTH2_SECRET")
+SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
+
+pass
