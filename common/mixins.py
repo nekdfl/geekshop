@@ -19,8 +19,8 @@ class BaseClassContextMixin(ContextMixin):
         return context
 
 
-class UserDispatchMixin(View):
+class IsUserAuthorizedMixin(View):
 
     @method_decorator(user_passes_test(lambda u: u.is_authenticated))
     def dispatch(self, request, *args, **kwargs):
-        return super(UserDispatchMixin, self).dispatch(request, *args, **kwargs)
+        return super(IsUserAuthorizedMixin, self).dispatch(request, *args, **kwargs)

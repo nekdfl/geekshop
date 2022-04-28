@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     ####### project apps ####
-
+    "common",
     "mainapp",
     "authapp",
     "basketapp",
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'geekshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'basketapp.context_processors.basket'
             ],
         },
     },
@@ -130,13 +131,45 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# media upload settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# auth for custom usermodel
 AUTH_USER_MODEL = 'authapp.User'
 
+# login redirect
 LOGIN_URL = "/authapp/login"
 LOGIN_REDIRECT_URL = "/"
+
+# # email
+# # used in email message for activation url
+# DOMAIN_NAME = 'http:/mysupersite.ru'
+# # real django mail settings
+# EMAIL_HOST = 'mail.ru'
+# EMAIL_PORT = '25'
+# EMAIL_HOST_USER = 'robot@mysupersite.ru'
+# EMAIL_HOST_PASSWORD = 'robot pass'
+# EMAIL_USE_SSL = True
+# EMAIL_TIMEOUT = 60
+
+# ACTIVATION_KEY_EXPIRED_HOURS = 72
+
+# вариант python -m smtpd -n -c DebuggingServer localhost:25
+
+# email
+# used in email message
+DOMAIN_NAME = 'http://localhost:8000'
+# real django mail settings
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = None
+EMAIL_HOST_PASSWORD = None
+EMAIL_USE_SSL = False
+EMAIL_TIMEOUT = 20
+
+# add this for log email in files
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'tmp/email-messages/'
