@@ -23,6 +23,14 @@ class User(AbstractUser):
             return False
         return True
 
+    def get_avatar(self):
+        if self.image:
+            return self.image.url
+        elif self.userprofile.photo:
+            return self.userprofile.photo
+        else:
+            return None
+
 
 class UserProfile(models.Model):
     MALE = 'M'
@@ -36,6 +44,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
     about = models.TextField(verbose_name='о себе', blank=True, null=True)
     gender = models.CharField(verbose_name='пол', blank=True, choices=GENDER_CHOICES, max_length=2)
+    photo = models.CharField(verbose_name='Фото', blank=True, null=True, max_length=2084)
 
 
 @receiver(post_save, sender=User)
