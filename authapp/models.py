@@ -45,6 +45,7 @@ class UserProfile(models.Model):
     about = models.TextField(verbose_name='о себе', blank=True, null=True)
     gender = models.CharField(verbose_name='пол', blank=True, choices=GENDER_CHOICES, max_length=2)
     photo = models.CharField(verbose_name='Фото', blank=True, null=True, max_length=2084)
+    language = models.CharField(verbose_name='Язык', blank=True, max_length=25, default='ru')
 
 
 @receiver(post_save, sender=User)
