@@ -81,6 +81,7 @@ class Profile(UpdateView, BaseClassContextMixin, IsUserAuthorizedMixin):
 
     def post(self, request, *args, **kwargs):
         form = UserForm(data=request.POST, files=request.FILES, instance=request.user)
+
         socialnet_profile_form = UserProfileForm(data=request.POST, files=request.FILES,
                                                  instance=request.user.userprofile)
         if form.is_valid() and socialnet_profile_form.is_valid():

@@ -1,3 +1,5 @@
+import base64
+import os
 from datetime import timedelta
 
 from django.conf import settings
@@ -9,9 +11,32 @@ from django.dispatch import receiver
 from django.utils.timezone import now
 
 
+def get_b64_avatr_filename(filename, user_pk):
+    file_ext = str(filename).split(".")[-1]
+    new_filename = base64.urlsafe_b64encode(f'user-{user_pk}'.encode('ascii')).decode('ascii')
+    return f'{new_filename}.{file_ext}'
+
+
+def delete_old_photo(filename, user_pk):
+    upload_dir = "user_avatar"
+    file_ext = str(filename).split(".")[-1]
+    new_filename = base64.urlsafe_b64encode(f'user-{user_pk}'.encode('ascii')).decode('ascii')
+    filepath = os.path.join(upload_dir, f'{new_filename}.{file_ext}')
+    os.remove(filepath)
+
+
+def upload_avatar(instance, filename):
+    upload_dir = "user_avatar"
+    if os.path.exists(os.path.join(upload_dir, str(instance.image))):
+        delete_old_photo(instance.image, instance.pk)
+    file_ext = str(filename).split(".")[len(str(filename).split(".")) - 1]
+    new_filename = base64.urlsafe_b64encode(f'user-{instance.pk}'.encode('ascii')).decode('ascii')
+    return os.path.join(upload_dir, f'{new_filename}.{file_ext}')
+
+
 class User(AbstractUser):
     # image = models.ImageField(upload_to="user_avatar", blank=True, validators=[validate_username])
-    image = models.ImageField(upload_to="user_avatar", blank=True)
+    image = models.ImageField(upload_to=upload_avatar, blank=True)
     age = models.PositiveIntegerField(default=18)
     activation_key = models.CharField(max_length=128, blank=True, null=True)
     activation_key_expire = models.DateTimeField(null=True, blank=True, auto_now=True)

@@ -161,7 +161,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # media upload settings
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT_SHORT = 'media'
+MEDIA_ROOT = BASE_DIR / MEDIA_ROOT_SHORT
 
 # auth for custom usermodel
 AUTH_USER_MODEL = 'authapp.User'

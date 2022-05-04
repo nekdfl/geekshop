@@ -1,4 +1,5 @@
 import base64
+import os.path
 from collections import OrderedDict
 from datetime import datetime
 from urllib.parse import urlunparse, urlencode
@@ -30,26 +31,27 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         2: UserProfile.MALE,
         0: None
     }
+    bdate = datetime.strptime(data['bdate'], '%d.%m.%Y').date()
+    age = timezone.now().date().year - bdate.year
+
+    if age < 5:
+        user.delete()
+        raise AuthForbidden('social_core.backends.vk.VKOAuth2')
 
     user.userprofile.gender = data_sex[data['sex']]
     if data['about']:
         user.userprofile.about = data['about']
 
-    bdate = datetime.strptime(data['bdate'], '%d.%m.%Y').date()
-    age = timezone.now().date().year - bdate.year
-
     if data['photo_200']:
-        photo_reponse = requests.get(data['photo_200'])
-        filename = base64.urlsafe_b64encode('user-{user.pk}'.encode('ascii')).decode('ascii')
+        filename = base64.urlsafe_b64encode(f'user-{user.pk}'.encode('ascii')).decode('ascii')
+        short_path_photo = f'{settings.MEDIA_ROOT_SHORT}/user_avatar/{filename}.jpeg'
         path_photo = f'user_avatar/{filename}.jpeg'
 
-        with open(f'{settings.MEDIA_ROOT}/{path_photo}', 'wb') as ph:
-            ph.write(photo_reponse.content)
-
-        user.image = path_photo
-    if age < 5:
-        user.delete()
-        raise AuthForbidden('social_core.backends.vk.VKOAuth2')
+        if not os.path.exists(short_path_photo) and not user.image:
+            with open(short_path_photo, 'wb') as ph:
+                photo_reponse = requests.get(data['photo_200'])
+                ph.write(photo_reponse.content)
+                user.image = path_photo
 
     user.age = age
     if data['personal']['langs'] and len(data['personal']['langs'][0]) > 0:
