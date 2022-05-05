@@ -3,11 +3,11 @@ from django.contrib import messages, auth
 from django.contrib.auth.views import LogoutView, LoginView
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, FormView
 
-from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from authapp.forms import UserLoginForm, UserRegisterForm, UserForm, UserProfileForm
 from authapp.models import User
 from common.mixins import IsUserAuthorizedMixin, BaseClassContextMixin
 
@@ -58,7 +58,7 @@ class RegisterUser(FormView, BaseClassContextMixin):
                 user.activation_key_ = None
                 user.is_active = True
                 user.save()
-                auth.login(self, user)
+                auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
             return render(self, template_name='authapp/verification.html')
         except Exception as e:
             return HttpResponseRedirect(reverse('index'))
@@ -75,9 +75,22 @@ class RegisterUser(FormView, BaseClassContextMixin):
 
 class Profile(UpdateView, BaseClassContextMixin, IsUserAuthorizedMixin):
     template_name = 'authapp/profile.html'
-    form_class = UserProfileForm
+    form_class = UserForm
     title = 'Geekshop | Профиль пользователя'
     success_url = reverse_lazy('authapp:profile')
+
+    def post(self, request, *args, **kwargs):
+        form = UserForm(data=request.POST, files=request.FILES, instance=request.user)
+        socialnet_profile_form = UserProfileForm(data=request.POST, files=request.FILES,
+                                                 instance=request.user.userprofile)
+        if form.is_valid() and socialnet_profile_form.is_valid():
+            form.save()
+        return redirect(self.success_url)
+
+    def get_context_data(self, **kwargs):
+        context = super(Profile, self).get_context_data()
+        context['profile'] = UserProfileForm(instance=self.request.user.userprofile)
+        return context
 
     def get_object(self, queryset=None):
         return User.objects.get(id=self.request.user.pk)
