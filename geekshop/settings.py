@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "common",
     "mainapp",
     "authapp",
+    "ordersapp",
     "basketapp",
     "adminapp",
     "social_django",
@@ -161,7 +162,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # media upload settings
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT_SHORT = 'media'
+MEDIA_ROOT = BASE_DIR / MEDIA_ROOT_SHORT
 
 # auth for custom usermodel
 AUTH_USER_MODEL = 'authapp.User'
@@ -215,7 +217,6 @@ SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
 SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
-pass
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
@@ -226,5 +227,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-
 )
+
+pass
