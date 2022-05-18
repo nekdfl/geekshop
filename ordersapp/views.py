@@ -63,20 +63,19 @@ class OrderUpdate(UpdateView, BaseClassContextMixin):
     model = Order
     fields = []
     success_url = reverse_lazy('ordersapp:list')
-    title = 'GeekShop | Создание заказа'
+    title = 'GeekShop | редактирование заказа'
 
     def get_context_data(self, **kwargs):
         context = super(OrderUpdate, self).get_context_data()
-        OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=1)
+        OrderFormSet = inlineformset_factory(Order, OrderItem,
+                                             form=OrderItemsForm, extra=1)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST, instance=self.object)
         else:
-
             formset = OrderFormSet(instance=self.object)
             for num, form in enumerate(formset.forms):
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price
-
         context['orderitems'] = formset
         return context
 
