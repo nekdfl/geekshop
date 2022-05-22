@@ -108,3 +108,20 @@ def order_forming_complete(request, pk):
     order.status = Order.SEND_TO_PROCESSED
     order.save()
     return HttpResponseRedirect(reverse('ordersapp:list'))
+
+# @receiver(pre_save, sender=OrderItem)
+# @receiver(pre_save, sender=Basket)
+# def product_quantity_update_save(sender, instance, **kwargs):
+#     if instance.pk:
+#         item = instance.get_item(instance.pk)
+#         instance.product.quantity -= instance.quantity - item
+#     else:
+#         instance.product.quantity -= instance.quantity
+#     instance.product.save()
+#
+#
+# @receiver(pre_delete, sender=OrderItem)
+# @receiver(pre_delete, sender=Basket)
+# def product_quantity_delete(sender, instance, **kwargs):
+#     instance.product.quantity += instance.quantity
+#     instance.save()
