@@ -81,7 +81,6 @@ window.onload = function () {
     //
     //     }
     //     orderSummaryUpdate(price_array[orderitem_num], delta_quantity)
-
     // })
 
     function orderSummaryUpdate(orderitem_price, delta_quantity) {
@@ -92,10 +91,7 @@ window.onload = function () {
         $('.order_total_cost').html(order_total_cost.toString() + ',00');
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/lesson2_4
     $('.formset_row').formset({
         addText: 'добавить продукт',
         deleteText: 'удалить',
@@ -103,16 +99,9 @@ window.onload = function () {
         removed: deleteOrderItem,
     })
 
-<<<<<<< HEAD
 
     function deleteOrderItem(row) {
-        console.log(row[0].querySelector('input[type="number"]').name)
         let target_name = row[0].querySelector('input[type="number"]').name
-        console.log('target name: ', target_name)
-=======
-    function deleteOrderItem(row) {
-        let target_name = row[0].querySelector('input[type="number"]').name
->>>>>>> origin/lesson2_4
         orderitem_num = parseInt(target_name.replace('orderitems-', '').replace('-quantity', ''))
         delta_quantity = -quantity_array[orderitem_num]
         orderSummaryUpdate(price_array[orderitem_num], delta_quantity)
@@ -142,15 +131,14 @@ window.onload = function () {
 
     })
 
-<<<<<<< HEAD
     $(document).on('change', '.order_form select', function () {
 
         let target = event.target;
         orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-product', ''));
         let orderitem_product_pk = target.options[target.selectedIndex].value;
 
-        console.log(orderitem_num)
-        console.log(orderitem_product_pk)
+        // console.log(orderitem_num)
+        // console.log(orderitem_product_pk)
 
         if (orderitem_product_pk) {
             $.ajax({
@@ -170,6 +158,5 @@ window.onload = function () {
             })
         }
     })
-=======
->>>>>>> origin/lesson2_4
+
 }
