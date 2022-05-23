@@ -22,15 +22,15 @@
     <div class="container">
         <a class="navbar-brand" href="{% url 'index' %}">GeekShop</a>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
@@ -79,20 +79,22 @@
 </nav>
 
 <!-- Page Content -->
-    {% block content %} {% endblock %}
+{% block content %} {% endblock %}
 
-    <!-- Page footer -->
-    {% block footer %} {% endblock %}
+<!-- Page footer -->
+{% block footer %} {% endblock %}
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/basket.js' %}"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery_formset.js' %}"></script>
+<script src="{% static 'js/orders.js' %}"></script>
 
-    <!-- FontAwesome script -->
-    <script
-            src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}"
-            crossorigin="anonymous"
-    ></script>
-  </body>
+
+<!-- FontAwesome script -->
+<script
+        src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}"
+        crossorigin="anonymous"
+></script>
+</body>
 </html>
