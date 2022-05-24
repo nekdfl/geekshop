@@ -1,0 +1,212 @@
+Сайт доступен по адресу
+https://geekshop.teji.ru/
+
+Отчет ДЗ урок 2.5
+
+
+Общая история дествий
+1. Создал пользователя для себя (nek), для проекта (djnago), убрал пароли, настроил аутефикацию по ключу под всеми пользователями: django, nek, root
+2. обновил систему
+3. установил htop, mc, aptitude, mlocate, postgresql, postgresql-contrib, python3-venv, nginx, letsencrypt, python3-certbot-nginx
+4. настроил авторизацию без пароля для postgresql
+5. зашел под пользователем django
+5.1 создал каталог вирутуальной среды
+5.2 инициализировал проект
+5.3 проверил работу
+5.4 настроил запуск gunicorn
+5.5 настроил работу gunicron с nginx
+5.6 создал новый ключ API
+5.7 настроил ssl через certbot командой
+certbot --nginx -d geekshop.teji.ru
+5.8 настроил dns запись geekshop.teji.ru на своем DNS сервере
+5.9 дописал оформление заказа на кнопку "оформить" в профиле
+
+
+
+history_root.txt
+
+    1  passwd
+    2  apt update
+    3  apt upgerade
+    4  apt upgrade
+    5  useradd -m -g nek -G sudo -s /bin/bash nek
+    6  useradd
+    7  useradd -m -U -G sudo -s /bin/bash nek
+    8  passwd nek
+    9  su - nek
+   10  apt install mc htop net-tools
+   11  apt install unzip
+   12  htop
+   13  apt isntall aptitude
+   14  apt install aptitude mlocate
+   15  htop
+   16  passwd
+   17  passwd -D nek
+   18  passwd -d nek
+   19  history
+   20  ip a
+   21  hostname
+   22  hostname
+   23  hostname geekshop.teji.ru
+   24  mcedit /etc/hosts
+   25  hostnamectl set-hostname geekshop.teji.ru
+   26  systemctl restart hostname
+   27  reboot
+   28  passwd -D
+   29  passwd -d
+   30  passwd -d root
+   31  cat /etc/resolv.conf
+   32  ping geekshop.teji.ru
+   33  hostname
+   34  history
+   35  apt install nginx
+   36  aptitude
+   37  apt install letsencrypt
+   38  useradd -m -U -G sudo -s /bin/bash django
+   39  su - django
+   40  apt install postgresql
+   41  apt install postgresql postgresql-contrib
+   42  apt install python3-venv
+   43  ping geekshop.teji.ru
+   44  su - django
+   45  passwd django
+   46  passwd -d django
+   47  reboot
+   48  nano /etc/postgresql/12/main/pg_hba.conf
+   49  systemctl status posgtresql
+   50  systemctl status postgresql
+   51  postgre
+   52  systemctl restart postgresql
+   53  systemctl status posgtresql
+   54  mc
+   55  systemctl status postgresql
+   56  systemctl restart postgresql
+   57  systemctl status postgresql
+   58  psql -u
+   59  psql -u posgtres
+   60  psql -U posgtres
+   61  psql -U postgres
+   62  su - django
+   63  letsencrypt
+   64  letsencrypt certbot certonly
+   65  certbot certonly
+   66  mc
+   67  mkdir /home/django/www-data
+   68  touch /home/django/www-data/index.html
+   69  cat /etc/group
+   70  gpasswd -a django www-data
+   71  chown -R django:www-data /home/django/
+   72  chorn -R django:django /home/django/.ssh/
+   73  chown -R django:django /home/django/.ssh/
+   74  history
+
+history_django.txt
+    1  ssh-keygen
+    2  cat ~/.ssh/id_rsa.pub
+    3  pwd
+    4  history
+    5  pwd
+    6  ls
+    7  git clone git@github.com:nekdfl/geekshop.git
+    8  git clone https://github.com/nekdfl/geekshop.git
+    9  git branch
+   10  git branch checkout
+   11  ls
+   12  pwd
+   13  cd geekshop/
+   14  ls
+   15  pwd
+   16  git branch checkout
+   17  git branch
+   18  git pull
+   19  git branch
+   20  git checkout lesson2_5
+   21  pwd
+   22  ls
+   23  cd ../
+   24  wpd
+   25  pwd
+   26  python -m venv .venv
+   27  python3 -m venv .venv
+   28  source ./.venv/bin/activate
+   29  pip install -r geekshop/requirements.txt
+   30  pip install wheel
+   31  pip install -r geekshop/requirements.txt
+   32  cd geekshop/
+   33  python3 manage.py
+   34  python3 manage.py filldb
+   35  python3 manage.py runserver:80
+   36  python3 manage.py runserver
+   37  python3 manage.py runserver 0.0.0.0:80
+   38  python3 manage.py runserver 0.0.0.0:8000
+   39  python3 manage.py collectstatic
+   40  source ./.venv/bin/activate
+   41  cd geekshop/
+   42  python3 manage.py filldb
+   43  python3 manage.py migrate
+   44  python3 manage.py filldb
+   45  mc
+   46  python3 manage.py filldb
+   47  python3 manage.py runserver 0.0.0.0:800
+   48  python3 manage.py runserver 0.0.0.0:8000
+   49  mc
+   50  git clone git@github.com:nekdfl/geekshop.gitgit@github.com:nekdfl/geekshop.git
+   51  git clone git@github.com:nekdfl/geekshop.git
+   52  cat ./.ssh/id_rsa.pub
+   53  python3 manage.py runserver 0.0.0.0:8000
+   54  git pull
+   55  git fetch --all
+   56  git reset --hard origin/lesson2_5
+   57  python3 manage.py runserver 0.0.0.0:8000
+   58  python3 manage.py migrate
+   59  python3 manage.py filldb
+   60  python3 manage.py runserver 0.0.0.0:8000
+   61  python3 manage.py collectstatic
+   62  python3 manage.py runserver 0.0.0.0:8000
+   63  cd ../
+   64  python3 manage.py runserver 0.0.0.0:8000
+   65  cd geekshop/
+   66  python3 -m venv .venv
+   67  source .venv/bin/activate
+   68  pip install -r requirements.txt
+   69  python3 manage.py runserver 0.0.0.0:8000
+   70  mc
+   71  sudo systemctl restart nginx.service
+   72  sudo systemctl restart gunicron
+   73  sudo systemctl restart gunicorn
+   74  htop
+   75  sudo systemctl stop gunicorn
+   76  ps ax | grep gunicorn
+   77  sudo systemctl start gunicorn
+   78  htop
+   79  sudo systemctl restart gunicorn
+   80  cd geekshop/
+   81  source .venv/bin/activate
+   82  ls
+   83  pwd
+   84  python3 manage.py runserver 0.0.0.0:8000
+   85  git fill
+   86  git pull
+   87  pip install gunicron
+   88  pip3 install gunicron
+   89  pip install gunicorn
+   90  sudo nano /etc/systemd/system/gunicorn.service
+   91  sudo systemctl enable gunicorn
+   92  sudo systemctl start gunicorn
+   93  sudo systemctl status gunicorn
+   94  sudo nano /etc/systemd/system/gunicorn.service
+   95  mc
+   96  sudo systemctl start gunicorn
+   97  sudo systemctl daemon-reload
+   98  sudo systemctl status gunicorn
+   99  sudo nano /etc/systemd/system/gunicorn.service
+  100  sudo systemctl restart gunicorn
+  101  sudo systemctl status gunicorn
+  102  sudo nano /etc/nginx/sites-available/geekshop
+  103  sudo ln -s /etc/nginx/sites-available/geekshop /etc/nginx/sites-enabled
+  104  sudo nginx -t
+  105  mc
+  106  sudo rm /etc/nginx/sites-enabled/default
+  107  sudo systemctl restart nginx
+  108  mc
+  109  history
