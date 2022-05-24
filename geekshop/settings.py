@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+from distutils.util import strtobool
 from pathlib import Path
 
 import social_core
@@ -28,9 +29,32 @@ def create_env_file(envfilepath):
         from django.core.management import utils
         new_secret_key = utils.get_random_secret_key()
         secret_key = f"SECRET_KEY={new_secret_key}\n"
+        vk_oauth_key = '# VK_OAUTH2_KEY = \n'
+        vk_oauth_secret = '# VK_OAUTH2_SECRET = \n'
+        debug = 'DEBUG=False \n'
+        production = 'PRODUCTION=False\n'
+        email = """# # email settings
+# # used in email message for activation url
+# DOMAIN_NAME = 'http:/mysupersite.ru'
+# # real django mail settings
+# EMAIL_HOST = 'smtp.mailserverdomain.ru'
+# EMAIL_PORT = '25'
+# EMAIL_HOST_USER = 'user@domain.ru'
+# EMAIL_HOST_PASSWORD = ''
+# EMAIL_USE_SSL = True
+# EMAIL_TIMEOUT = 60\n"""
         envfile.seek(0, os.SEEK_END)
         envfile.write(secret_key)
+        envfile.write(vk_oauth_key)
+        envfile.write(vk_oauth_secret)
+        envfile.write(debug)
+        envfile.write(production)
+        envfile.write(email)
         print(".env was created. Check it.")
+
+
+def get_bool_from_env(key, default_value):
+    return bool(strtobool(os.environ.get(key, default_value)))
 
 
 ENV_FILE = os.path.join(BASE_DIR, '.env')
@@ -41,10 +65,11 @@ else:
     load_dotenv(ENV_FILE)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", '123'),
+SECRET_KEY = os.environ.get("SECRET_KEY", '123')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_bool_from_env("DEBUG", False)
+PRODUCTION = get_bool_from_env("PRODUCTION", False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -106,13 +131,21 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if PRODUCTION:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'geekshop',
+            'USER': 'postgres',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -188,23 +221,30 @@ LOGIN_ERROT_URL = '/'
 
 # вариант python -m smtpd -n -c DebuggingServer localhost:25
 
-# email
-# used in email message
-DOMAIN_NAME = 'http://localhost:8000'
-# real django mail settings
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = '25'
-EMAIL_HOST_USER = None
-EMAIL_HOST_PASSWORD = None
-EMAIL_USE_SSL = False
-EMAIL_TIMEOUT = 20
+if PRODUCTION:
+    DOMAIN_NAME = os.environ.get("DOMAIN_NAME", 'yoursitedomain.ru')
+    # real django mail settings
+    EMAIL_HOST = os.environ.get("EMAIL_HOST", 'smtp.domain.ru')
+    EMAIL_PORT = os.environ.get("EMAIL_PORT", '25')
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", 'user@domain.ru')
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", '')
+    EMAIL_USE_SSL = True
+    EMAIL_TIMEOUT = 60
+else:
+    # email
+    # used in email message
+    DOMAIN_NAME = 'http://localhost:8000'
+    # real django mail settings
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = '25'
+    EMAIL_HOST_USER = None
+    EMAIL_HOST_PASSWORD = None
+    EMAIL_USE_SSL = False
+    EMAIL_TIMEOUT = 20
 
 # add this for log email in files
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = 'tmp/email-messages/'
-
-# 8150978
-# ZjQGbMraDLeYnXZG3gvz
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
