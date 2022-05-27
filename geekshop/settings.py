@@ -10,51 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-from distutils.util import strtobool
 from pathlib import Path
 
 import social_core
 from dotenv import load_dotenv
 
+from geekshop.settingutils import create_env_file, get_bool_from_env
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-def create_env_file(envfilepath):
-    with open(envfilepath, 'w+', encoding='utf-8') as envfile:
-        print(".env does not exists! Creating it with SECRET_KEY... \n please wait")
-        from django.core.management import utils
-        new_secret_key = utils.get_random_secret_key()
-        secret_key = f"SECRET_KEY={new_secret_key}\n"
-        vk_oauth_key = '# VK_OAUTH2_KEY = \n'
-        vk_oauth_secret = '# VK_OAUTH2_SECRET = \n'
-        debug = 'DEBUG=False \n'
-        production = 'PRODUCTION=False\n'
-        email = """# # email settings
-# # used in email message for activation url
-# DOMAIN_NAME = 'http:/mysupersite.ru'
-# # real django mail settings
-# EMAIL_HOST = 'smtp.mailserverdomain.ru'
-# EMAIL_PORT = '25'
-# EMAIL_HOST_USER = 'user@domain.ru'
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_USE_SSL = True
-# EMAIL_TIMEOUT = 60\n"""
-        envfile.seek(0, os.SEEK_END)
-        envfile.write(secret_key)
-        envfile.write(vk_oauth_key)
-        envfile.write(vk_oauth_secret)
-        envfile.write(debug)
-        envfile.write(production)
-        envfile.write(email)
-        print(".env was created. Check it.")
-
-
-def get_bool_from_env(key, default_value):
-    return bool(strtobool(os.environ.get(key, default_value)))
 
 
 ENV_FILE = os.path.join(BASE_DIR, '.env')
@@ -65,10 +33,11 @@ else:
     load_dotenv(ENV_FILE)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", '123')
+SECRET_KEY = os.environ.get("SECRET_KEY", '123'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env("DEBUG", False)
+# Set production for run at real server
 PRODUCTION = get_bool_from_env("PRODUCTION", False)
 
 ALLOWED_HOSTS = ['*']
@@ -131,6 +100,7 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 if PRODUCTION:
     DATABASES = {
         'default': {
@@ -181,16 +151,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATICFILES_DIRS contaien list of tuple nad serve it by auto only in DEBUG=TRUE
+# STATICFILES_DIRS = (BASE_DIR / 'static',)
 
-if PRODUCTION:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-else:
-    STATICFILES_DIRS = (BASE_DIR / 'static',)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -254,8 +222,14 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
 )
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("VK_OAUTH2_KEY")
-SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("VK_OAUTH2_SECRET")
+VK_OUATH_KEY = os.environ.get("VK_OAUTH2_KEY")
+VK_OUATH_SECRET = os.environ.get("VK_OAUTH2_SECRET")
+
+if not VK_OUATH_KEY or not VK_OUATH_SECRET:
+    print("WARNING! VK OAUTH SETTINGS ARE INVALID. Check .env file")
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = VK_OUATH_KEY
+SOCIAL_AUTH_VK_OAUTH2_SECRET = VK_OUATH_SECRET
 SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
 SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
@@ -271,5 +245,3 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
-
-pass
