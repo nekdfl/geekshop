@@ -15,7 +15,7 @@ class ProductListView(ListView, BaseClassContextMixin):
     model = Product
     context_object_name = 'products'
     template_name = 'mainapp/products.html'
-    paginate_by = 2
+    paginate_by = 6
 
     def get_queryset(self):
         id_category = self.kwargs.get('id_category')
