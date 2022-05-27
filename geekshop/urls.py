@@ -15,9 +15,10 @@ Including another URLconf
 """
 
 from django.conf import settings
-from django.conf.urls.static import static
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.views.static import serve
 
 from mainapp.views import IndexTemplateView
 
@@ -29,7 +30,13 @@ urlpatterns = [
     path('basketapp/', include('basketapp.urls', namespace='basketapp')),
     path('adminapp/', include('adminapp.urls', namespace='adminapp')),
     path('ordersapp/', include('ordersapp.urls', namespace='ordersapp')),
-    path('', include('social_django.urls', namespace='social'))
+    path('', include('social_django.urls', namespace='social')),
+
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.PRODUCTION == False:
+    urlpatterns += url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    urlpatterns += url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
