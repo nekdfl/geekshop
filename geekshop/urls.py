@@ -24,6 +24,7 @@ from mainapp.views import IndexTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', cache_page(3600)( IndexTemplateView.as_view()), name='index'),
     path('', IndexTemplateView.as_view(), name='index'),
     path('products/', include('mainapp.urls', namespace='mainapp')),
     path('authapp/', include('authapp.urls', namespace='authapp')),
