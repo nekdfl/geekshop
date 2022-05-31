@@ -207,7 +207,7 @@ AUTH_USER_MODEL = 'authapp.User'
 # login redirect
 LOGIN_URL = "/authapp/login"
 LOGIN_REDIRECT_URL = "/"
-LOGIN_ERROT_URL = '/'
+LOGIN_ERROR_URL = '/'
 
 # # email
 # # used in email message for activation url
