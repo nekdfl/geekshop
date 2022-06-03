@@ -1,3 +1,4 @@
+from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 # Create your views here.
 from django.shortcuts import get_object_or_404
@@ -20,6 +21,7 @@ class BasketCreateView(CreateView, IsUserAuthorizedMixin):
             if baskets:
                 basket = baskets.first()
                 basket.quantity += 1
+                basket.quantity = F('quantity') + 1
                 basket.save()
             else:
                 Basket.objects.create(user=user_select, product=product, quantity=1)
