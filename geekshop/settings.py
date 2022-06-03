@@ -22,7 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 
-
 ENV_FILE = os.path.join(BASE_DIR, '.env')
 if os.path.exists(ENV_FILE) and os.path.isfile(ENV_FILE):
     load_dotenv(ENV_FILE)
@@ -63,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,6 +74,7 @@ MIDDLEWARE = [
 
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'geekshop.urls'
@@ -100,7 +101,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'geekshop.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -120,7 +120,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -138,7 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -275,3 +273,19 @@ if DEBUG:
         'debug_toolbar.panels.profiling.ProfilingPanel',
         'template_profiler_panel.panels.template.TemplateProfilerPanel',
     ]
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = os.environ.get("CACHE_MIDDLEWARE_SECONDS", '120')
+CACHE_MIDDLEWARE_KEY_PREFIX = os.environ.get("CACHE_MIDDLEWARE_KEY_PREFIX", 'geekshop')
+LOW_CACHE = get_bool_from_env('LOW_CACHE', True)
+
+MEMCACHE_SERVER = os.environ.get("MEMCACHE_SERVER", '127.0.0.1')
+MEMCACHE_PORT = os.environ.get("MEMCACHE_SERVER", '11211')
+MEMCACHE_CONNECTION = f"{MEMCACHE_SERVER}:{MEMCACHE_PORT}"
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': MEMCACHE_CONNECTION,
+    }
+}
+pass
