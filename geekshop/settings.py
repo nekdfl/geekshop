@@ -275,13 +275,17 @@ if DEBUG:
     ]
 
 CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 120
-CACHE_MIDDLEWARE_KEY_PREFIX = 'geekshop'
-LOW_CACHE = True
+CACHE_MIDDLEWARE_SECONDS = os.environ.get("CACHE_MIDDLEWARE_SECONDS", '120')
+CACHE_MIDDLEWARE_KEY_PREFIX = os.environ.get("CACHE_MIDDLEWARE_KEY_PREFIX", 'geekshop')
+LOW_CACHE = get_bool_from_env('LOW_CACHE', True)
 
+MEMCACHE_SERVER = os.environ.get("MEMCACHE_SERVER", '127.0.0.1')
+MEMCACHE_PORT = os.environ.get("MEMCACHE_SERVER", '11211')
+MEMCACHE_CONNECTION = f"{MEMCACHE_SERVER}:{MEMCACHE_PORT}"
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+        'LOCATION': MEMCACHE_CONNECTION,
     }
 }
+pass
